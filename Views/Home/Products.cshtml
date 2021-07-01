@@ -1,0 +1,71 @@
+﻿@model Subnautica.Models.MainViewModel
+
+@{
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+	.jumbotron {
+		padding-top: 28px;
+		padding-bottom: 68px;
+		padding-right: 40px;
+		padding-left: 40px;
+	}
+</style>
+
+<header>
+	<h1>Choose a material</h1>
+</header>
+
+<hr />
+
+<main>
+	<section class="jumbotron">
+		<h3 style="margin-top: 0;">Filter:</h3>
+		<div class="flex">
+			<div id="materialTypeContainer">
+				@Html.Label("Material Type")
+				@Html.DropDownListFor(m => m.MaterialTypeID, Model.MaterialTypes, new { @id = "Type", @class = "form-control" })
+			</div>
+		</div>
+
+		<hr />
+
+		<div id="materialContainer" class="flex align-vertical-center col-lg-11" style="padding: 0;" data-name="Component">
+			@Html.Action("_ComponentContainer")
+		</div>
+		<div class="flex align-vertical-center col-lg-1" style="padding: 0;">
+			<div class="btn btn-default focusable" id="clear" tabindex="0">Clear</div>
+		</div>
+	</section>
+
+	<hr />
+
+	<section>
+
+		<div class="list">
+			<div class="row">
+				<div class="col-md-12 table-responsive">
+					<table class="table table-striped table-hover products">
+						<thead>
+							<tr>
+								<th colspan="6" class="text-center text-uppercase"><strong>Products</strong></th>
+							</tr>
+							<tr>
+								<th></th>
+								<th>Name</th>
+								<th>Type</th>
+								<th>Instrument</th>
+								<th>Set (Quantity)</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+							@Html.Action("_IsUsedIn", Model)
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</section>
+</main>

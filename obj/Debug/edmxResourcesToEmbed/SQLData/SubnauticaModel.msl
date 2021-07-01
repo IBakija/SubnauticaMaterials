@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="SubnauticaModelStoreContainer" CdmEntityContainer="SubnauticaEntities">
+    <EntitySetMapping Name="Instrument">
+      <EntityTypeMapping TypeName="SubnauticaModel.Instrument">
+        <MappingFragment StoreEntitySet="Instrument">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Enum" ColumnName="Enum" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Material">
+      <EntityTypeMapping TypeName="SubnauticaModel.Material">
+        <MappingFragment StoreEntitySet="Material">
+          <ScalarProperty Name="Size" ColumnName="Size" />
+          <ScalarProperty Name="ImageURL" ColumnName="ImageURL" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="TypeID" ColumnName="TypeID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MaterialType">
+      <EntityTypeMapping TypeName="SubnauticaModel.MaterialType">
+        <MappingFragment StoreEntitySet="MaterialType">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Enum" ColumnName="Enum" />
+          <ScalarProperty Name="InstrumentID" ColumnName="InstrumentID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Location">
+      <EntityTypeMapping TypeName="SubnauticaModel.Location">
+        <MappingFragment StoreEntitySet="Location">
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="Material_Location" TypeName="SubnauticaModel.Material_Location" StoreEntitySet="Material_Location">
+      <EndProperty Name="Material">
+        <ScalarProperty Name="ID" ColumnName="MaterialID" />
+      </EndProperty>
+      <EndProperty Name="Location">
+        <ScalarProperty Name="ID" ColumnName="LocationID" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <EntitySetMapping Name="MaterialRelation">
+      <EntityTypeMapping TypeName="SubnauticaModel.MaterialRelation">
+        <MappingFragment StoreEntitySet="MaterialRelation">
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="ResourceID" ColumnName="ResourceID" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

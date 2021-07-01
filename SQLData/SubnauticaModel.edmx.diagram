@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="211be33755284a90b651bc6f07adb513" Name="Diagram1">
+        <EntityTypeShape EntityType="SubnauticaModel.Instrument" Width="1.5" PointX="0.75" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SubnauticaModel.Material" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="SubnauticaModel.MaterialType" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <AssociationConnector Association="SubnauticaModel.FK_MaterialType_Instrument" ManuallyRouted="false" />
+        <AssociationConnector Association="SubnauticaModel.FK_Material_MaterialType" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="SubnauticaModel.Location" Width="1.5" PointX="0.75" PointY="4.875" />
+        <AssociationConnector Association="SubnauticaModel.Material_Location" />
+        <AssociationConnector Association="SubnauticaModel.FK_Instrument_Instrument" />
+        <EntityTypeShape EntityType="SubnauticaModel.MaterialRelation" Width="1.5" PointX="7.5" PointY="1.25" />
+        <AssociationConnector Association="SubnauticaModel.FK_MaterialRelations_Material" />
+        <AssociationConnector Association="SubnauticaModel.FK_MaterialRelations_MaterialRelations" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

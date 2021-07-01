@@ -1,0 +1,27 @@
+﻿
+@model Subnautica.Models.MaterialTypesViewModel
+<div class="row">
+	<div class="col-md-12 table-responsive">
+		<table class="table table-striped table-hover">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Instrument</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach(var x in Model.MaterialTypesList)
+				{
+					<tr>
+						<td>@x.Name</td>
+						<td>@(x.Instrument != null ? x.Instrument.Name : "-" )</td>
+						<td>@Html.ActionLink("Edit", "MaterialTypes", new { id = x.ID }, new { @class = "edit" })</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+
+	</div>
+</div>
+

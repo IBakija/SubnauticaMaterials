@@ -1,0 +1,14 @@
+﻿@model Subnautica.Models.MainViewModel
+
+@foreach (var x in Model.ResourceListViewModel)
+{
+	<tr data-id="@x.ID">
+		<td><input value="@x.ID" hidden class="id" /><img class="img" src="~/Content/Images/Materials/@(x.Name.Replace(" ", "_")).png" title="@x.Name" /></td>
+		<td width="150"><span>@x.Name</span></td>
+		<td><span>@x.MaterialTypeName</span></td>
+		<td><span>@x.InstrumentName</span></td>
+		<td><span class="quantity">@x.Quantity</span></td>
+	</tr>
+}
+
+

@@ -1,0 +1,108 @@
+﻿@model Subnautica.Models.MainViewModel
+
+@{
+	ViewBag.Title = "Home Page";
+}
+
+<style>
+	.jumbotron {
+		padding-top: 28px;
+		padding-bottom: 68px;
+		padding-right: 40px;
+		padding-left: 40px;
+	}
+</style>
+
+<header>
+	<h1>Choose a product</h1>
+</header>
+
+<hr />
+
+<main>
+	<section class="jumbotron">
+		<h3 style="margin-top: 0;">Filter:</h3>
+		<div class="flex">
+			<div id="instrumentsContainer">
+				@Html.Label("Instruments")
+				@Html.DropDownListFor(m => m.InstrumentID, Model.Instruments, new { @class = "form-control" })
+			</div>
+			&nbsp;
+			<div id="materialTypeContainer">
+				@Html.Action("_MaterialTypeContainer")
+			</div>
+		</div>
+
+		<hr />
+
+		<div id="materialContainer" class="flex align-vertical-center col-lg-9" style="padding: 0;" data-name="Material">
+			@Html.Action("_MaterialContainer")
+		</div>
+		<div class="flex align-vertical-center col-lg-2">
+			@*<div class="btn btn-success focusable" id="download" tabindex="0">
+				<i class="fa fa-file-pdf-o" aria-hidden="true"></i>&nbsp;
+				Download PDF
+			</div>*@
+		</div>
+		<div class="flex align-vertical-center col-lg-1" style="padding: 0;">
+			<div class="btn btn-default focusable" id="clear" tabindex="0">Clear</div>
+		</div>
+	</section>
+
+	<hr />
+
+	<section>
+
+		<div class="list">
+			<div class="row">
+				<div class="col-md-6 table-responsive">
+					<table class="table table-striped table-hover products">
+						<thead>
+							<tr>
+								<th colspan="6" class="text-center text-uppercase"><strong>Products</strong></th>
+							</tr>
+							<tr>
+								<th></th>
+								<th>Name</th>
+								<th>Type</th>
+								<th>Instrument</th>
+								<th>Set (Quantity)</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+							@Html.Action("_ProductList", Model)
+						</tbody>
+					</table>
+				</div>
+				<div class="col-md-6 table-responsive resources">
+					<table class="table table-striped table-hover">
+						<thead>
+							<tr>
+								<th colspan="5" class="text-center text-uppercase"><strong>Resources</strong></th>
+							</tr>
+							<tr>
+								<th></th>
+								<th>Name</th>
+								<th>Type</th>
+								<th>Instrument</th>
+								<th>Quantity</th>
+							</tr>
+						</thead>
+						@*<tfoot>
+							<tr>
+								<td></td>
+								<td></td>
+								<td colspan="2">Number of inventory slots:</td>
+								<td id="sum"></td>
+							</tr>
+						</tfoot>*@
+						<tbody>
+							@Html.Action("_MaterialList", Model)
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</section>
+</main>

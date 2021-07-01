@@ -1,0 +1,4 @@
+﻿@model Subnautica.Models.MainViewModel
+
+@Html.Label("Material Type")
+@Html.DropDownListFor(m => m.MaterialTypeID, Model.MaterialTypes, new { @id = "Type", @class = "form-control" })

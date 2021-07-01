@@ -1,0 +1,6 @@
+﻿@model Subnautica.Models.MainViewModel
+
+@Html.Label("Choose")&nbsp;
+@Html.DropDownListFor(m => m.MaterialID, Model.Materials, new { @class = "form-control" })&nbsp;
+@Html.EditorFor(m => m.MaterialQuantity, new { htmlAttributes = new { @class = "form-control", min = "1" } })&nbsp;
+<div id="materialAdd" class="btn btn-primary focusable" tabindex="0">Add to list</div>

@@ -1,0 +1,437 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="SubnauticaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Instrument">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Enum" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Location">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Material">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="TypeID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ImageURL" Type="nvarchar(max)" />
+          <Property Name="Size" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Subnautica.dbo.Material_Location' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Material_Location">
+          <Key>
+            <PropertyRef Name="MaterialID" />
+            <PropertyRef Name="LocationID" />
+          </Key>
+          <Property Name="MaterialID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="LocationID" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MaterialRelation">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ResourceID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ProductID" Type="uniqueidentifier" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MaterialType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Enum" Type="int" Nullable="false" />
+          <Property Name="InstrumentID" Type="uniqueidentifier" />
+        </EntityType>
+        <Association Name="FK_Instrument_Instrument">
+          <End Role="Instrument" Type="Self.Instrument" Multiplicity="1" />
+          <End Role="Instrument1" Type="Self.Instrument" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Instrument">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Instrument1">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Material_Location_Location">
+          <End Role="Location" Type="Self.Location" Multiplicity="1" />
+          <End Role="Material_Location" Type="Self.Material_Location" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Material_Location">
+              <PropertyRef Name="LocationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Material_Location_Material">
+          <End Role="Material" Type="Self.Material" Multiplicity="1" />
+          <End Role="Material_Location" Type="Self.Material_Location" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Material">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Material_Location">
+              <PropertyRef Name="MaterialID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Material_MaterialType">
+          <End Role="MaterialType" Type="Self.MaterialType" Multiplicity="1" />
+          <End Role="Material" Type="Self.Material" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MaterialType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Material">
+              <PropertyRef Name="TypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MaterialRelations_Material">
+          <End Role="Material" Type="Self.Material" Multiplicity="1" />
+          <End Role="MaterialRelation" Type="Self.MaterialRelation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Material">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MaterialRelation">
+              <PropertyRef Name="ResourceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MaterialRelations_MaterialRelations">
+          <End Role="MaterialRelation" Type="Self.MaterialRelation" Multiplicity="0..1" />
+          <End Role="MaterialRelation1" Type="Self.MaterialRelation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MaterialRelation">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MaterialRelation1">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MaterialType_Instrument">
+          <End Role="Instrument" Type="Self.Instrument" Multiplicity="0..1" />
+          <End Role="MaterialType" Type="Self.MaterialType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Instrument">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MaterialType">
+              <PropertyRef Name="InstrumentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SubnauticaModelStoreContainer">
+          <EntitySet Name="Instrument" EntityType="Self.Instrument" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Location" EntityType="Self.Location" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Material" EntityType="Self.Material" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MaterialRelation" EntityType="Self.MaterialRelation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MaterialType" EntityType="Self.MaterialType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Material_Location" EntityType="Self.Material_Location" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Material_Location].[MaterialID] AS [MaterialID], 
+    [Material_Location].[LocationID] AS [LocationID]
+    FROM [dbo].[Material_Location] AS [Material_Location]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_Instrument_Instrument" Association="Self.FK_Instrument_Instrument">
+            <End Role="Instrument" EntitySet="Instrument" />
+            <End Role="Instrument1" EntitySet="Instrument" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Material_Location_Location" Association="Self.FK_Material_Location_Location">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="Material_Location" EntitySet="Material_Location" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Material_Location_Material" Association="Self.FK_Material_Location_Material">
+            <End Role="Material" EntitySet="Material" />
+            <End Role="Material_Location" EntitySet="Material_Location" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Material_MaterialType" Association="Self.FK_Material_MaterialType">
+            <End Role="MaterialType" EntitySet="MaterialType" />
+            <End Role="Material" EntitySet="Material" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MaterialRelations_Material" Association="Self.FK_MaterialRelations_Material">
+            <End Role="Material" EntitySet="Material" />
+            <End Role="MaterialRelation" EntitySet="MaterialRelation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MaterialRelations_MaterialRelations" Association="Self.FK_MaterialRelations_MaterialRelations">
+            <End Role="MaterialRelation" EntitySet="MaterialRelation" />
+            <End Role="MaterialRelation1" EntitySet="MaterialRelation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MaterialType_Instrument" Association="Self.FK_MaterialType_Instrument">
+            <End Role="Instrument" EntitySet="Instrument" />
+            <End Role="MaterialType" EntitySet="MaterialType" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SubnauticaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Instrument">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Enum" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="MaterialType" Relationship="Self.FK_MaterialType_Instrument" FromRole="Instrument" ToRole="MaterialType" />
+          <NavigationProperty Name="Instrument1" Relationship="SubnauticaModel.FK_Instrument_Instrument" FromRole="Instrument" ToRole="Instrument1" />
+          <NavigationProperty Name="Instrument2" Relationship="SubnauticaModel.FK_Instrument_Instrument" FromRole="Instrument1" ToRole="Instrument" />
+        </EntityType>
+        <EntityType Name="Material">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TypeID" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="MaterialType" Relationship="Self.FK_Material_MaterialType" FromRole="Material" ToRole="MaterialType" />
+          <Property Name="ImageURL" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Size" Type="Int32" />
+          <NavigationProperty Name="Location" Relationship="SubnauticaModel.Material_Location" FromRole="Material" ToRole="Location" />
+          <NavigationProperty Name="MaterialRelation" Relationship="SubnauticaModel.FK_MaterialRelations_Material" FromRole="Material" ToRole="MaterialRelation" />
+          </EntityType>
+        <EntityType Name="MaterialType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Enum" Type="Int32" Nullable="false" />
+          <Property Name="InstrumentID" Type="Guid" />
+          <NavigationProperty Name="Instrument" Relationship="Self.FK_MaterialType_Instrument" FromRole="MaterialType" ToRole="Instrument" />
+          <NavigationProperty Name="Material" Relationship="Self.FK_Material_MaterialType" FromRole="MaterialType" ToRole="Material" />
+        </EntityType>
+        <Association Name="FK_MaterialType_Instrument">
+          <End Role="Instrument" Type="Self.Instrument" Multiplicity="0..1" />
+          <End Role="MaterialType" Type="Self.MaterialType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Instrument">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MaterialType">
+              <PropertyRef Name="InstrumentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Material_MaterialType">
+          <End Role="MaterialType" Type="Self.MaterialType" Multiplicity="1" />
+          <End Role="Material" Type="Self.Material" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MaterialType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Material">
+              <PropertyRef Name="TypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SubnauticaEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Instrument" EntityType="Self.Instrument" />
+          <EntitySet Name="Material" EntityType="Self.Material" />
+          <EntitySet Name="MaterialType" EntityType="Self.MaterialType" />
+          <AssociationSet Name="FK_MaterialType_Instrument" Association="Self.FK_MaterialType_Instrument">
+            <End Role="Instrument" EntitySet="Instrument" />
+            <End Role="MaterialType" EntitySet="MaterialType" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Material_MaterialType" Association="Self.FK_Material_MaterialType">
+            <End Role="MaterialType" EntitySet="MaterialType" />
+            <End Role="Material" EntitySet="Material" />
+          </AssociationSet>
+          <EntitySet Name="Location" EntityType="SubnauticaModel.Location" />
+          <AssociationSet Name="Material_Location" Association="SubnauticaModel.Material_Location">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="Material" EntitySet="Material" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Instrument_Instrument" Association="SubnauticaModel.FK_Instrument_Instrument">
+            <End Role="Instrument" EntitySet="Instrument" />
+            <End Role="Instrument1" EntitySet="Instrument" />
+          </AssociationSet>
+          <EntitySet Name="MaterialRelation" EntityType="SubnauticaModel.MaterialRelation" />
+          <AssociationSet Name="FK_MaterialRelations_Material" Association="SubnauticaModel.FK_MaterialRelations_Material">
+            <End Role="Material" EntitySet="Material" />
+            <End Role="MaterialRelation" EntitySet="MaterialRelation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MaterialRelations_MaterialRelations" Association="SubnauticaModel.FK_MaterialRelations_MaterialRelations">
+            <End Role="MaterialRelation" EntitySet="MaterialRelation" />
+            <End Role="MaterialRelation1" EntitySet="MaterialRelation" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="Location">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Material" Relationship="SubnauticaModel.Material_Location" FromRole="Location" ToRole="Material" />
+        </EntityType>
+        <Association Name="Material_Location">
+          <End Type="SubnauticaModel.Location" Role="Location" Multiplicity="*" />
+          <End Type="SubnauticaModel.Material" Role="Material" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_Instrument_Instrument">
+          <End Type="SubnauticaModel.Instrument" Role="Instrument" Multiplicity="1" />
+          <End Type="SubnauticaModel.Instrument" Role="Instrument1" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Instrument">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Instrument1">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="MaterialRelation">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="ResourceID" Type="Guid" Nullable="false" />
+          <Property Name="ProductID" Type="Guid" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Material" Relationship="SubnauticaModel.FK_MaterialRelations_Material" FromRole="MaterialRelation" ToRole="Material" />
+          <NavigationProperty Name="MaterialRelation1" Relationship="SubnauticaModel.FK_MaterialRelations_MaterialRelations" FromRole="MaterialRelation" ToRole="MaterialRelation1" />
+          <NavigationProperty Name="MaterialRelation2" Relationship="SubnauticaModel.FK_MaterialRelations_MaterialRelations" FromRole="MaterialRelation1" ToRole="MaterialRelation" />
+        </EntityType>
+        <Association Name="FK_MaterialRelations_Material">
+          <End Type="SubnauticaModel.Material" Role="Material" Multiplicity="1" />
+          <End Type="SubnauticaModel.MaterialRelation" Role="MaterialRelation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Material">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MaterialRelation">
+              <PropertyRef Name="ResourceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MaterialRelations_MaterialRelations">
+          <End Type="SubnauticaModel.MaterialRelation" Role="MaterialRelation" Multiplicity="0..1" />
+          <End Type="SubnauticaModel.MaterialRelation" Role="MaterialRelation1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MaterialRelation">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MaterialRelation1">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SubnauticaModelStoreContainer" CdmEntityContainer="SubnauticaEntities">
+          <EntitySetMapping Name="Instrument">
+            <EntityTypeMapping TypeName="SubnauticaModel.Instrument">
+              <MappingFragment StoreEntitySet="Instrument">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Enum" ColumnName="Enum" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Material">
+            <EntityTypeMapping TypeName="SubnauticaModel.Material">
+              <MappingFragment StoreEntitySet="Material">
+                <ScalarProperty Name="Size" ColumnName="Size" />
+                <ScalarProperty Name="ImageURL" ColumnName="ImageURL" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="TypeID" ColumnName="TypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MaterialType">
+            <EntityTypeMapping TypeName="SubnauticaModel.MaterialType">
+              <MappingFragment StoreEntitySet="MaterialType">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Enum" ColumnName="Enum" />
+                <ScalarProperty Name="InstrumentID" ColumnName="InstrumentID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Location">
+            <EntityTypeMapping TypeName="SubnauticaModel.Location">
+              <MappingFragment StoreEntitySet="Location">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="Material_Location" TypeName="SubnauticaModel.Material_Location" StoreEntitySet="Material_Location">
+            <EndProperty Name="Material">
+              <ScalarProperty Name="ID" ColumnName="MaterialID" />
+            </EndProperty>
+            <EndProperty Name="Location">
+              <ScalarProperty Name="ID" ColumnName="LocationID" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="MaterialRelation">
+            <EntityTypeMapping TypeName="SubnauticaModel.MaterialRelation">
+              <MappingFragment StoreEntitySet="MaterialRelation">
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="ResourceID" ColumnName="ResourceID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

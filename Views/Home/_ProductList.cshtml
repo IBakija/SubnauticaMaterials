@@ -1,0 +1,14 @@
+﻿@model Subnautica.Models.MainViewModel
+
+@if (Model != null && Model.MaterialProductID != null)
+{
+	<tr data-id="@Model.MaterialProductID">
+		<td>@Html.HiddenFor(x => x.MaterialProductID)<img class="img" src="~/Content/Images/Materials/@(Model.MaterialName.Replace(" ", "_")).png" title="@Model.MaterialName" /></td>
+		<td width="120"><span>@Model.MaterialName</span></td>
+		<td width="95"><span>@Model.MaterialTypeName</span></td>
+		<td width="110"><span>@Model.InstrumentName</span></td>
+		<td><span class="quantity">@Model.MaterialQuantitySet</span>&nbsp;<span>(@Model.MaterialQuantity)</span></td>
+		<td width="65"><div class="flex align-vertical-center space-between" style="height: 40px; width: 45px;"><span class="trash btn btn-default focusable inline-flex align-vertical-center justify-content-center" tabindex="0">-</span><span class="add btn btn-default focusable inline-flex align-vertical-center justify-content-center" tabindex="0">+</span></div></td>
+	</tr>
+}
+
